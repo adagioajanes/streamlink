@@ -6,7 +6,7 @@ from streamlink.stream.hls import HLSStream
 
 
 @pluginmatcher(re.compile(
-    r"https?://www\.cbsnews\.com/live/"
+    r"https?://www\.cbsnews\.com/pittsburgh/live/"
 ))
 class CBSNews(Plugin):
     _re_default_payload = re.compile(r"CBSNEWS.defaultPayload = (\{.*)")
