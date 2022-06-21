@@ -1,9 +1,17 @@
+"""
+$description Live TV channels and video on-demand service from france.tv, a French public, state-owned broadcaster.
+$url france.tv
+$url francetvinfo.fr
+$type live, vod
+$region France, Andorra, Monaco
+"""
+
 import logging
 import re
 from datetime import datetime
 from urllib.parse import urlparse
 
-from isodate import LOCAL as LOCALTIMEZONE
+from isodate import LOCAL as LOCALTIMEZONE  # type: ignore[import]
 
 from streamlink.plugin import Plugin, PluginError, pluginmatcher
 from streamlink.plugin.api import useragents, validate
@@ -98,7 +106,7 @@ class Pluzz(Plugin):
             validate.parse_json(),
             {
                 "video": {
-                    "workflow": "token-akamai",
+                    "workflow": validate.any("token-akamai", "dai"),
                     "format": validate.any("dash", "hls"),
                     "token": validate.url(),
                     "url": validate.url()

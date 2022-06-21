@@ -1,3 +1,10 @@
+"""
+$description Live and on-demand video service from World Wrestling Entertainment, Inc.
+$url network.wwe.com
+$type live, vod
+$account Required
+"""
+
 import json
 import logging
 import re
@@ -87,7 +94,7 @@ class WWENetwork(Plugin):
 
         return self.auth_token
 
-    @property
+    @property  # type: ignore
     @lru_cache(maxsize=128)
     def item_config(self):
         log.debug("Loading page config")

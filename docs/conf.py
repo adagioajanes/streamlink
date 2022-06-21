@@ -19,10 +19,12 @@ needs_sphinx = '3.0'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosectionlabel',
+    'sphinx.ext.intersphinx',
     'ext_argparse',
     'ext_github',
+    'ext_plugins',
     'ext_releaseref',
-    'recommonmark'
+    'myst_parser',
 ]
 
 autosectionlabel_prefix_document = True
@@ -86,6 +88,29 @@ exclude_patterns = ['_build', '_applications.rst']
 
 github_project = 'streamlink/streamlink'
 
+
+# -- Options for autodoc ---------------------------------------------------
+
+autodoc_default_options = {
+    "show-inheritance": True,
+    "members": True,
+    "member-order": "groupwise",  # autodoc_member_order
+    "class-doc-from": "both",  # autoclass_content
+}
+autodoc_inherit_docstrings = False
+autodoc_typehints = "description"
+
+
+# -- Options for intersphinx ---------------------------------------------------
+
+intersphinx_mapping = {
+    # "python": ("https://docs.python.org/3", None),
+    "requests": ("https://requests.readthedocs.io/en/stable/", None),
+}
+
+intersphinx_timeout = 60
+
+
 # -- Options for HTML output ---------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -95,7 +120,11 @@ html_theme = 'furo'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {}
+html_theme_options = {
+    "source_repository": "https://github.com/streamlink/streamlink/",
+    "source_branch": "master",
+    "source_directory": "docs/",
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []

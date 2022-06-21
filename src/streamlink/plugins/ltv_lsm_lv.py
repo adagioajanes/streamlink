@@ -1,3 +1,10 @@
+"""
+$description Live TV channels from LTV, a Latvian public, state-owned broadcaster.
+$url ltv.lsm.lv
+$type live
+$region Latvia
+"""
+
 import logging
 import re
 from urllib.parse import urlsplit, urlunsplit
@@ -42,7 +49,7 @@ class LTVHLSStream(HLSStream):
         streams = super().parse_variant_playlist(*args, **kwargs)
 
         for stream in streams.values():
-            stream.args["url"] = copy_query_url(stream.args["url"], stream.url_master)
+            stream.args["url"] = copy_query_url(stream.args["url"], stream.multivariant.uri)
 
         return streams
 

@@ -1,3 +1,9 @@
+"""
+$description Global live broadcasting and live broadcast archiving social platform.
+$url twitcasting.tv
+$type live
+"""
+
 import hashlib
 import logging
 import re
@@ -6,8 +12,7 @@ from streamlink.buffers import RingBuffer
 from streamlink.plugin import Plugin, PluginArgument, PluginArguments, PluginError, pluginmatcher
 from streamlink.plugin.api import validate
 from streamlink.plugin.api.websocket import WebsocketClient
-from streamlink.stream.stream import Stream
-from streamlink.stream.stream import StreamIO
+from streamlink.stream.stream import Stream, StreamIO
 from streamlink.utils.url import update_qsd
 
 
@@ -97,7 +102,10 @@ class TwitCastingWsClient(WebsocketClient):
         super().on_close(*args, **kwargs)
         self.buffer.close()
 
-    def on_message(self, wsapp, data: str) -> None:
+    def on_data(self, wsapp, data, data_type, cont):
+        if data_type == self.OPCODE_TEXT:
+            data = bytes(data, "utf-8")
+
         try:
             self.buffer.write(data)
         except Exception as err:
@@ -142,8 +150,8 @@ class TwitCastingStream(Stream):
         super().__init__(session)
         self.url = url
 
-    def __repr__(self):
-        return f"<TwitCastingStream({self.url!r})>"
+    def to_url(self):
+        return self.url
 
     def open(self):
         reader = TwitCastingReader(self)
